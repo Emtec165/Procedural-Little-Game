@@ -138,12 +138,13 @@ int main(void) {
 		if (redraw && al_is_event_queue_empty(event_queue)) {
 			redraw = false;
 			al_identity_transform(&camera);
-			al_translate_transform(&camera, std::floorf(width / 2 - gracz.x), std::floorf((height / 2 - gracz.y) + 200));
+			al_translate_transform(&camera, std::floorf(width / 2 - gracz.x),80);
 			al_use_transform(&camera);
 
-			al_clear_to_color(al_map_rgb(255, 255, 255));
+			al_clear_to_color(al_map_rgb(0, 0, 0));
 			al_draw_textf(font, al_map_rgb(255, 255, 0), 2, 2, 0, "Liczba klatek %i", liczbaKlatek); // rysownanie liczby klatek
-			al_draw_bitmap(player, gracz.x, gracz.y, 0);
+			al_draw_filled_rectangle(gracz.x - 50, gracz.y - 135, gracz.x + 50, gracz.y + 65, al_map_rgb(255, 0, 255));
+			//al_draw_bitmap(player, gracz.x, gracz.y, 0);
 			al_draw_bitmap(trawa1, 0, 475, 0);
 			al_draw_bitmap(trawa1, szerokosc_bitmapy, 475, 0);
 			al_draw_bitmap(trawa1, szerokosc_bitmapy * 2, 475, 0);
@@ -151,13 +152,14 @@ int main(void) {
 			al_draw_bitmap(trawa1, szerokosc_bitmapy * 4, 475, 0);
 			al_draw_bitmap(trawa1, szerokosc_bitmapy * 5, 475, 0);
 			al_draw_bitmap(trawa1, szerokosc_bitmapy * 6, 475, 0);
+			//al_draw_filled_rectangle(gracz.x - 50, gracz.y - 130, gracz.x + 50, gracz.y + 70, al_map_rgb(255, 0, 255));
 
 			//Default camera position (to draw GUI)
 			al_identity_transform(&camera);
 			al_use_transform(&camera);
+			al_draw_textf(font, al_map_rgb(255, 255, 255), 2, 2, 0, "Liczba klatek %i", liczbaKlatek); // rysownanie liczby klatek
 
 			al_flip_display();
-			
 		}
 	}
 	al_destroy_event_queue(event_queue);
@@ -172,7 +174,7 @@ void InitPlayer(Player &gracz) {
 	gracz.y = 150;
 	gracz.ID = PLAYER;
 	gracz.jumpspeed = 25;
-	gracz.movmentspeed = 30;
+	gracz.movmentspeed = 10;
 	gracz.vely = 0;
 }
 void MovePlayerJump(Player &gracz) {
