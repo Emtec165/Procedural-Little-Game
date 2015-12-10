@@ -35,14 +35,15 @@ int main(void) {
 	ALLEGRO_TIMER *czasToPiniadz = NULL;
 	ALLEGRO_BITMAP *player = NULL;
 	ALLEGRO_BITMAP *trawa1 = NULL;
-	ALLEGRO_BITMAP *trawa2 = NULL;
+	ALLEGRO_BITMAP *drabina = NULL;
+	ALLEGRO_BITMAP *drzewo = NULL;
 	ALLEGRO_FONT *font = NULL;
 	ALLEGRO_TRANSFORM camera;
 
 	//initialization functions
 	if (!al_init())
 		return -1;
-	al_set_new_display_flags(ALLEGRO_FULLSCREEN);
+	//al_set_new_display_flags(ALLEGRO_FULLSCREEN);
 	al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_SUGGEST);
 	display = al_create_display(width, height);//definiowanie wysokosci i szerokosci glownego okna
 	if (!display)
@@ -57,8 +58,11 @@ int main(void) {
 
 	player = al_load_bitmap("dragon.gif");
 	trawa1 = al_load_bitmap("trawa.png");
-	trawa2 = al_load_bitmap("trawa2.gif");
-	font = al_load_font("times.ttf", 24, 0);
+	drabina = al_load_bitmap("untitled.png");
+	drzewo = al_load_bitmap("drzewo.png");
+	al_convert_mask_to_alpha(drabina, al_map_rgb(255, 255, 255));
+
+	font = al_load_font("arial.ttf", 24, 0);
 	czasToPiniadz = al_create_timer(1.0 / 60);
 
 	//Game Init
@@ -80,7 +84,7 @@ int main(void) {
 			case ALLEGRO_KEY_ESCAPE:
 				done = true;
 				break;
-			case ALLEGRO_KEY_UP:
+			case ALLEGRO_KEY_SPACE:
 				key[UP] = true;
 				break;
 			case ALLEGRO_KEY_DOWN:
@@ -100,7 +104,7 @@ int main(void) {
 			case ALLEGRO_KEY_ESCAPE:
 				done = true;
 				break;
-			case ALLEGRO_KEY_UP:
+			case ALLEGRO_KEY_SPACE:
 				key[UP] = false;
 				break;
 			case ALLEGRO_KEY_DOWN:
@@ -141,23 +145,27 @@ int main(void) {
 			al_translate_transform(&camera, std::floorf(width / 2 - gracz.x),80);
 			al_use_transform(&camera);
 
-			al_clear_to_color(al_map_rgb(0, 0, 0));
-			al_draw_textf(font, al_map_rgb(255, 255, 0), 2, 2, 0, "Liczba klatek %i", liczbaKlatek); // rysownanie liczby klatek
+			al_clear_to_color(al_map_rgb(255, 255, 255));
+			al_draw_textf(font, al_map_rgb(0, 0, 0), 1300, 300, 0, "Use arrows to move"); // rysownanie liczby klatek
+			for (int i = 1; i < 7; i++)
+				al_draw_bitmap(drzewo, 1400 * i, -150, 0);//DODAC FUNKCJE RANDOMIZUJ¥C¥
+			
+			al_draw_filled_rectangle(1000 +(gracz.x - 300) - (gracz.x * 0.2), 20, 1000 +(gracz.x - 350) - (gracz.x * 0.2), 750, al_map_rgb(0, 255, 0));
+			al_draw_filled_rectangle(2000 +(gracz.x - 300) - (gracz.x * 0.1), 20, 2000 +(gracz.x - 350) - (gracz.x * 0.1), 750, al_map_rgb(0, 255, 0));
+			al_draw_filled_rectangle(3000 +(gracz.x - 300) - (gracz.x * 0.1), 20, 3000 +(gracz.x - 350) - (gracz.x * 0.1), 750, al_map_rgb(0, 255, 0));
+			al_draw_filled_rectangle(4000 +(gracz.x - 300) - (gracz.x * 0.1), 20, 4000 +(gracz.x - 350) - (gracz.x * 0.1), 750, al_map_rgb(0, 255, 0));
 			al_draw_filled_rectangle(gracz.x - 50, gracz.y - 135, gracz.x + 50, gracz.y + 65, al_map_rgb(255, 0, 255));
 			//al_draw_bitmap(player, gracz.x, gracz.y, 0);
 			al_draw_bitmap(trawa1, 0, 475, 0);
-			al_draw_bitmap(trawa1, szerokosc_bitmapy, 475, 0);
-			al_draw_bitmap(trawa1, szerokosc_bitmapy * 2, 475, 0);
-			al_draw_bitmap(trawa1, szerokosc_bitmapy * 3, 475, 0);
-			al_draw_bitmap(trawa1, szerokosc_bitmapy * 4, 475, 0);
-			al_draw_bitmap(trawa1, szerokosc_bitmapy * 5, 475, 0);
-			al_draw_bitmap(trawa1, szerokosc_bitmapy * 6, 475, 0);
-			//al_draw_filled_rectangle(gracz.x - 50, gracz.y - 130, gracz.x + 50, gracz.y + 70, al_map_rgb(255, 0, 255));
+			for (int i = 1; i < 7;i++)
+				al_draw_bitmap(trawa1, szerokosc_bitmapy * i, 475, 0);
+			al_draw_bitmap(drabina, 2000, -350, 0);
 
 			//Default camera position (to draw GUI)
 			al_identity_transform(&camera);
 			al_use_transform(&camera);
-			al_draw_textf(font, al_map_rgb(255, 255, 255), 2, 2, 0, "Liczba klatek %i", liczbaKlatek); // rysownanie liczby klatek
+			al_draw_textf(font, al_map_rgb(0, 0, 0), 2, 2, 0, "Liczba klatek %i", liczbaKlatek); // rysownanie liczby klatek
+			al_draw_textf(font, al_map_rgb(0, 0, 0), 1850, 2, ALLEGRO_ALIGN_RIGHT, "x :%i  y :%i", gracz.x, gracz.y); // rysownanie liczby klatek
 
 			al_flip_display();
 		}
@@ -170,7 +178,7 @@ int main(void) {
 }
 
 void InitPlayer(Player &gracz) {
-	gracz.x = 50;
+	gracz.x = 960;
 	gracz.y = 150;
 	gracz.ID = PLAYER;
 	gracz.jumpspeed = 25;
@@ -183,8 +191,8 @@ void MovePlayerJump(Player &gracz) {
 }
 void MovePlayerLeft(Player &gracz) {
 	gracz.x -= gracz.movmentspeed;
-	if (gracz.x < 0)
-		gracz.x = 0;
+	if (gracz.x < 960)
+		gracz.x = 960;
 }
 void MovePlayerRight(Player &gracz) {
 	gracz.x += gracz.movmentspeed;
