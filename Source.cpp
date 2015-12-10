@@ -5,6 +5,8 @@
 #include <allegro5\allegro_image.h>
 #include "objects.h"
 #include <cmath>
+#include <random>
+#include <iostream>
 
 //global variables
 int width = 1920;
@@ -25,6 +27,13 @@ int main(void) {
 	int liczbaKlatek = 0;
 	bool done = false, redraw = false;
 	int szerokosc_bitmapy = 1554;
+	int drzewa_rand[30];
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_int_distribution<int> dist(-500, 500);
+
+	for (int i = 0; i < 30; i++)
+		drzewa_rand[i] = dist(mt);
 
 	//object variables
 	Player gracz;
@@ -147,17 +156,17 @@ int main(void) {
 
 			al_clear_to_color(al_map_rgb(255, 255, 255));
 			al_draw_textf(font, al_map_rgb(0, 0, 0), 1300, 300, 0, "Use arrows to move"); // rysownanie liczby klatek
-			for (int i = 1; i < 7; i++)
-				al_draw_bitmap(drzewo, 1400 * i, -150, 0);//DODAC FUNKCJE RANDOMIZUJ¥C¥
-			
-			al_draw_filled_rectangle(1000 +(gracz.x - 300) - (gracz.x * 0.2), 20, 1000 +(gracz.x - 350) - (gracz.x * 0.2), 750, al_map_rgb(0, 255, 0));
-			al_draw_filled_rectangle(2000 +(gracz.x - 300) - (gracz.x * 0.1), 20, 2000 +(gracz.x - 350) - (gracz.x * 0.1), 750, al_map_rgb(0, 255, 0));
-			al_draw_filled_rectangle(3000 +(gracz.x - 300) - (gracz.x * 0.1), 20, 3000 +(gracz.x - 350) - (gracz.x * 0.1), 750, al_map_rgb(0, 255, 0));
-			al_draw_filled_rectangle(4000 +(gracz.x - 300) - (gracz.x * 0.1), 20, 4000 +(gracz.x - 350) - (gracz.x * 0.1), 750, al_map_rgb(0, 255, 0));
+
+			for (int i = 0; i < 10; i++)
+				al_draw_filled_rectangle((1500 * i + (gracz.x - 300) - (gracz.x * 0.3)) + drzewa_rand[i - 1], 500, (1500 * i + (gracz.x - 500) - (gracz.x * 0.3)) + +drzewa_rand[i - 1], 750, al_map_rgb(0, 255, 0));
+
+			for (int i = 0; i < 15; i++)
+				al_draw_bitmap(drzewo, ((1500 * i) + drzewa_rand[i - 1]), -150, 0);
+				
 			al_draw_filled_rectangle(gracz.x - 50, gracz.y - 135, gracz.x + 50, gracz.y + 65, al_map_rgb(255, 0, 255));
 			//al_draw_bitmap(player, gracz.x, gracz.y, 0);
 			al_draw_bitmap(trawa1, 0, 475, 0);
-			for (int i = 1; i < 7;i++)
+			for (int i = 1; i < 20; i++)
 				al_draw_bitmap(trawa1, szerokosc_bitmapy * i, 475, 0);
 			al_draw_bitmap(drabina, 2000, -350, 0);
 
