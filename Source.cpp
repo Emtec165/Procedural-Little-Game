@@ -77,7 +77,7 @@ int main(void) {
 	al_init_acodec_addon();
 
 	al_reserve_samples(10);
-	song = al_load_sample("song.ogg");
+	song = al_load_sample("song1.ogg");
 	songInstance = al_create_sample_instance(song);
 	al_set_sample_instance_playmode(songInstance, ALLEGRO_PLAYMODE_LOOP);
 	al_attach_sample_instance_to_mixer(songInstance, al_get_default_mixer());
