@@ -8,4 +8,8 @@ struct Player {
 	int y;
 	int movmentspeed;
 	float vely, jumpspeed;
+	int currentframe;
+	int framecount;
+	int maxframe;
+	int framedelay;
 };
