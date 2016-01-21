@@ -53,6 +53,7 @@ int main(void) {
 	ALLEGRO_BITMAP *trawa1 = NULL;
 	ALLEGRO_BITMAP *drzewo = NULL;
 	ALLEGRO_BITMAP *spritesheet = NULL;
+	ALLEGRO_BITMAP *sky = NULL;
 	ALLEGRO_FONT *font = NULL;
 	ALLEGRO_TRANSFORM camera;
 	ALLEGRO_SAMPLE *song = NULL;
@@ -85,6 +86,7 @@ int main(void) {
 	trawa1 = al_load_bitmap("trawa.png");
 	drzewo = al_load_bitmap("drzewo.png");
 	spritesheet = al_load_bitmap("spritesheet.png");
+	sky = al_load_bitmap("backgournd.jpg");
 
 	font = al_load_font("arial.ttf", 24, 0);
 	czasToPiniadz = al_create_timer(1.0 / 60);
@@ -179,11 +181,11 @@ int main(void) {
 
 			al_clear_to_color(al_map_rgb(255, 255, 255));
 			al_draw_textf(font, al_map_rgb(0, 0, 0), 1300, 300, 0, "Use arrows to move"); // rysownanie liczby klatek
+			al_draw_bitmap(sky, (-960 + gracz.x), -200, 0);
 
 			for (int i = 0; i < 15; i++)
 				al_draw_bitmap(drzewo, ((1500 * i) + drzewa_rand[i - 1]), -150, 0);
 				
-
 			al_draw_tinted_scaled_rotated_bitmap_region(spritesheet, gracz.currentframe * 300, 0, 300, 255, al_map_rgb(255,255,255), 127.5, 150, gracz.x, gracz.y, 1, 1, 0, kierunek);
 			al_draw_bitmap(trawa1, 0, 475, 0);
 			for (int i = 1; i < 20; i++)
